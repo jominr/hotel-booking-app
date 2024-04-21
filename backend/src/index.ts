@@ -39,6 +39,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/my-hotels", myHotelRoutes);
 
+app.use("*", (req: Request, res: Response)=> {
+  res.sendFile(path.join(__dirname, '../../fronted/dist/index.html'));
+})
+
 app.listen(7001, ()=>{
   console.log("server running on localhost:7001");
 });
