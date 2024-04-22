@@ -68,4 +68,7 @@ test('should book hotel', async ({ page }) => {
   await page.getByRole("button", {name: "Confirm Booking"}).click();
   await page.waitForTimeout(5000); // 这里太慢了。
   await expect(page.getByText("Booking Saved!")).toBeVisible();
+
+  await page.getByRole("link", { name: "My Bookings"}).click();
+  await expect(page.getByText("xiao xiang")).toBeVisible();
 });
