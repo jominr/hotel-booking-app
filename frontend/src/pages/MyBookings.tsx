@@ -18,7 +18,7 @@ const MyBookings = () => {
           </div>
 
           <div className="flex flex-col gap-4 overflow-y-auto max-h-[300px]">
-            <div className="text-3xl font-bold">
+            <div className="text-2xl font-bold">
               {hotel.name}
               <div className="text-xs font-normal">
                 {hotel.city}, {hotel.country}

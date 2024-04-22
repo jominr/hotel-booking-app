@@ -18,8 +18,10 @@ const Home = () => {
           { topRowHotels.map((hotel)=><LatestDestinationCard hotel={hotel} key={hotel.name}/>) }
         </div>
 
-        <div className="grid md:grid-cols-3 gap-4"></div>
+        <div className="grid md:grid-cols-3 gap-4">
           { bottomRowHotels.map((hotel)=><LatestDestinationCard hotel={hotel} key={hotel.name}/>) }
+        </div>
+
       </div>
 
     </div>

@@ -19,8 +19,8 @@ const Detail = () => {
     <div className="space-y-6">
       <div>
         <span className="flex">
-          {Array.from({ length: hotel.starRating}).map(()=>(
-            <AiFillStar className="fill-yellow-400" />
+          {Array.from({ length: hotel.starRating}).map((item, idx)=>(
+            <AiFillStar className="fill-yellow-400" key={idx}/>
           ))}
         </span>
         <h1 className="text-3xl font-bold">{hotel.name}</h1>
@@ -32,7 +32,7 @@ const Detail = () => {
             <img
               src={image}
               alt={hotel.name}
-              className="rounded-md w-full h-fullobject-cover object-center"/>
+              className="rounded-md w-full h-full object-cover object-center"/>
           </div>
         ))}
       </div>
