@@ -11,6 +11,7 @@ const Header = () => {
             <Link to="/">MernHolidays.com</Link>
           </span>
 
+          {/* space-x-2 add some spacing between all the child elements */}
           <span className="flex space-x-2">
             { isLoggedIn ? (
               <>

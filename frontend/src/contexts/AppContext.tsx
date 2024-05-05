@@ -10,6 +10,8 @@ type ToastMessage = {
   message: string,
   type: "SUCCESS" | "ERROR";
 }
+
+// global state
 type AppContext = {
   showToast: (totastMessage: ToastMessage)=>void;
   isLoggedIn: boolean,
@@ -27,11 +29,16 @@ export const AppContextProvider = ({
 })=>{
   const [toast, setToast] = useState<ToastMessage | undefined>(undefined);
   
+  // this runs when an action causes the app to reRender. 
+  // 页面重新渲染时才会调用这个函数去验证token. for example:
+  // refresh the page, user changes the routes, 
+  // 当我们点击logout时，还保持在同一个页面，并且我们也没有刷新页面，所以不会调用这个函数。
   const { isError } = useQuery("validateToken", apiClient.validateToken, {
     retry: false,
   });
 
   return (
+    // 需要包裹<App />
     <AppContext.Provider
       value={{
         showToast: (toastMessage) => {
@@ -51,6 +58,7 @@ export const AppContextProvider = ({
   )
 }
 
+// create a hook that lets our components easily access the provider
 export const useAppContext = ()=>{
   const context = useContext(AppContext);
   return context as AppContext;

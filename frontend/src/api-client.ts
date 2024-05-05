@@ -7,7 +7,11 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 export const fetchCurrentUser = async (): Promise<UserType> => {
   const response = await fetch(`${API_BASE_URL}/api/users/me`, {
-    credentials: "include"
+    credentials: "include" 
+    // it is saying anytime we make a post request to the register endpoint 
+    // that we want to include any http cookies along with the request and 
+    // we also want to set any cookies that we get back from the server on the browser. 
+    // so, this is telling the browser to set the cookies.
   })
   if (!response.ok) {
     throw new Error("Error fetching user")
@@ -35,7 +39,7 @@ export const register = async (formData: RegisterFormData)=>{
 export const signIn = async (formData: SignInFormData)=> {
   const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
     method: 'POST',
-    credentials: "include",
+    credentials: "include", // tell the browser to send a http cookie
     headers: {
       "Content-Type": "application/json"
     },
@@ -51,7 +55,8 @@ export const signIn = async (formData: SignInFormData)=> {
 
 export const validateToken = async ()=>{
   const response = await fetch(`${API_BASE_URL}/api/auth/validate-token`, {
-    credentials: "include"
+    credentials: "include" // this tells the fetch request to tell the browser send any cookies along with the request, 
+    // which includes our http auth token cookie. 
   })
   if (!response.ok) {
     throw new Error("Token invalid")
@@ -62,7 +67,7 @@ export const validateToken = async ()=>{
 export const signOut = async () => {
   const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
     credentials: "include",
-    method: "POST"
+    method: "POST", // since we are creating a fake, an expired token essentially. 
   })
   if (!response.ok) {
     throw new Error("Error during sign out");

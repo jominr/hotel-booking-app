@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+// react-query, making fetch request, storing any state, and handing any erros
 import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from '../api-client'
 import { useAppContext } from "../contexts/AppContext";
@@ -13,10 +14,15 @@ export type RegisterFormData = {
 }
 
 const Register = () => {
+  // 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const {showToast} = useAppContext();
+  const { showToast } = useAppContext();
 
+  // 这个form的数据类型是RegisterFormData，
+  // ...register, spreading these individual properties onto our input, like onClick, onChange. input校验
+  // errors存储了form的错误信息
+  // watch在比对password是监听到了password的输入值
   const { 
     register, 
     watch, 
@@ -24,6 +30,8 @@ const Register = () => {
     formState: {errors}
   } = useForm<RegisterFormData>();
 
+  // useMutation(a fetch request, {onSuccess(), onError()})
+  // mutation展开 {mutate, loading, isSucess, ...}
   const mutation = useMutation(apiClient.register, {
     onSuccess: async () => {
       showToast({message: "Registration Success!", type: "SUCCESS"});
@@ -43,7 +51,9 @@ const Register = () => {
     <div>
       <form className="flex flex-col gap-5" onSubmit={onSubmit}>
         <h2 className="text-3xl font-bold">Create an Account</h2>
+        {/* mobile css first */}
         <div className="flex flex-col md:flex-row gap-5">
+          {/* label 包裹 input */}
           <label className="text-gray-700 text-sm font-bold flex-1">
             First Name
             <input

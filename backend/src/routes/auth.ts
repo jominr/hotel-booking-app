@@ -37,7 +37,6 @@ router.post("/login",
         process.env.JWT_SECRET_KEY as string,
         {
           expiresIn: "1d",
-
         }
       );
 
@@ -55,11 +54,13 @@ router.post("/login",
     }
   });
 
+// 当我们可以拿到token的时候，去验证前端带来的token
 router.get("/validate-token", verifyToken, (req: Request, res: Response)=>{
   res.status(200).send({userId: req.userId})
 });
 
 router.post("/logout", (req: Request, res: Response) => {
+  // return an empty token as part of the off token HTTP cookie
   res.cookie("auth_token", "", {
     expires: new Date(0),
   });

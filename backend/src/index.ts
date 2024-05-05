@@ -4,6 +4,7 @@ import "dotenv/config";
 import mongoose from 'mongoose';
 import userRoutes from './routes/users';
 import authRoutes from './routes/auth';
+// 当我们需要verifyToken时，需要这个包和对应的ts包
 import cookieParser from "cookie-parser";
 import path from "path";
 import { v2 as cloudinary} from "cloudinary";
@@ -25,16 +26,21 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string)
 
 
 const app = express();
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({extended: true}))
+// 
+app.use(cookieParser()); // 
+app.use(express.json()); // convert the body of API requests into Json. 
+app.use(express.urlencoded({extended: true})) // parse the URL, get the create parameters. 
 app.use(
   cors({
+    // our server is only going to accept requests from this url, 
+    // and that url must include the credentials or the http cookie in the requests. 
     origin: process.env.FRONTEND_URL,
     credentials: true,
   })
 );
 
+// serve those static assets. 
+// go to the frontend/dist folder, serve those static assests on the root of our url that the backend runs on. 
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.use("/api/auth", authRoutes);

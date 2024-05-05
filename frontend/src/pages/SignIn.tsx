@@ -4,6 +4,7 @@ import * as apiClient from '../api-client'
 import { useAppContext } from "../contexts/AppContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom"
+
 export type SignInFormData = {
   email: string,
   password: string,
@@ -19,6 +20,7 @@ const SignIn = () => {
     handleSubmit,
     formState: {errors}
   } = useForm<SignInFormData>();
+  // 这个form的type是SignInFormData.
 
   const mutation = useMutation(apiClient.signIn, {
     onSuccess: async ()=> {
