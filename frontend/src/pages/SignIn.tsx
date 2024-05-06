@@ -31,6 +31,7 @@ const SignIn = () => {
       */
       showToast({message: "Sign in Successful!", type: "SUCCESS"});
       await queryClient.invalidateQueries("validateToken");
+      // 跳转到hotel detail 或者 home页面
       navigate(location.state?.from?.pathname || "/");
 
     }, onError: (error: Error) => {

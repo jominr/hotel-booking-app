@@ -8,11 +8,11 @@ const ImagesSection = () => {
     watch,
     setValue, 
   } = useFormContext<HotelFromData>();
-
+  // 这个form在response里是存了imageUrls的。
   const existingImageUrls = watch("imageUrls");
 
   const handleDelete = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     imageUrl: string
   ) => {
     event.preventDefault();
@@ -30,8 +30,11 @@ const ImagesSection = () => {
           <div className='grid grid-cols-6 gap-4'>
             {
               existingImageUrls.map((url) => (
+                // tailwind，group的概念, button上有group:hover, 相当于就是这个div hover
                 <div key={url} className='relative group'>
+                  {/* the image stretches to match its container, crop the image so that it doesn't cause any overflow */}
                   <img src={url} alt="hotel image" className='min-h-full object-cover'/>
+                  {/* inset: top, bottom, right, left都是0，整个罩住*/}
                   <button onClick={(event) => handleDelete(event, url)} className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 text-white'>
                     Delete
                   </button>
@@ -43,7 +46,9 @@ const ImagesSection = () => {
 
         <input
           type="file"
+          // let the user select multiple image files 
           multiple
+          // the input will only accept files of type image
           accept="image/*"
           className='w-full text-gray-700 font-normal'
           {...register("imageFiles", {

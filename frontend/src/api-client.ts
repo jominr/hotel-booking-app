@@ -133,6 +133,7 @@ export type SearchParams = {
 }
 
 export const searchHotels = async (searchParams: SearchParams): Promise<HotelSearchResponse> => {
+  // new URLSearchParams()
   const queryParams = new URLSearchParams();
   queryParams.append("destination", searchParams.destination || "");
   queryParams.append("checkIn", searchParams.checkIn || "");

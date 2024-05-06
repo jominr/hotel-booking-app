@@ -1,5 +1,8 @@
 import React, { useContext, useState } from "react";
 
+// 我们在很多页面都会用到，所以搞了个searchContext.
+
+// 第一步：
 type SearchContext = {
   destination: string;
   checkIn: Date;
@@ -16,15 +19,21 @@ type SearchContext = {
   ) => void;
 };
 
+// 第二步：
 const SearchContext = React.createContext<SearchContext | undefined>(undefined);
+
+// 第四步：
 type SearchContextProviderProps = {
   children: React.ReactNode;
 };
+
 export const SearchContextProvider = ({
   children,
 }: SearchContextProviderProps)=> {
 
+  // 第五步：
   const [destination, setDestination] = useState<string>(()=> 
+    // 第六步：
     sessionStorage.getItem("destination") || ""
   );
   const [checkIn, setCheckIn] = useState<Date>(()=> 
@@ -43,6 +52,7 @@ export const SearchContextProvider = ({
     sessionStorage.getItem("hotelId") || ""
   );
 
+  // 第五步：
   const saveSearchValues = (
     destination: string,
     checkIn: Date,
@@ -60,6 +70,7 @@ export const SearchContextProvider = ({
       setHotelId(hotelId);
     }
 
+    // 第六步：
     sessionStorage.setItem("destination", destination);
     sessionStorage.setItem("checkIn", checkIn.toISOString());
     sessionStorage.setItem("checkOut", checkOut.toISOString());
@@ -70,21 +81,25 @@ export const SearchContextProvider = ({
     }
   };
 
+  // 第三步：
   return (
-    <SearchContext.Provider value={{
-      destination, 
-      checkIn, 
-      checkOut, 
-      adultCount, 
-      childCount, 
-      hotelId,
-      saveSearchValues
+    <SearchContext.Provider
+      // 第六步：
+      value={{
+        destination, 
+        checkIn, 
+        checkOut, 
+        adultCount, 
+        childCount, 
+        hotelId,
+        saveSearchValues
     }}>
       {children}
     </SearchContext.Provider>
   );
 };
 
+// create a hook that lets components get easy access to these properties. 
 export const useSearchContext = () => {
   const context = useContext(SearchContext);
   return context as SearchContext;

@@ -9,6 +9,7 @@ const router = express.Router();
 router.get("/", verifyToken, async (req: Request, res: Response)=> {
   try {
     const hotels = await Hotel.find({
+      // Hotel里有元素bookings, 这个数组里的booking object值有userId,
       bookings: { $elemMatch: { userId: req.userId } },
     });
 
@@ -17,7 +18,7 @@ router.get("/", verifyToken, async (req: Request, res: Response)=> {
         (booking)=> booking.userId === req.userId
       )
       const hotelWithUserBookings: HotelType = {
-        ...hotel.toObject(),
+        ...hotel.toObject(), // the mongoose hotel => javascript object
         bookings: userBookings,
       };
 

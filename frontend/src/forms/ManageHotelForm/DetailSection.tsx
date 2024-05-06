@@ -5,7 +5,7 @@ const DetailSection = () => {
   const { 
     register, 
     formState: { errors },
-  } = useFormContext<HotelFromData>();
+  } = useFormContext<HotelFromData>(); // 父组件定义好，这里就可以拿到啦。
   
   return (
     <div className="flex flex-col gap-4">

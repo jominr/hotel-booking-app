@@ -11,7 +11,9 @@ import PriceFilter from "../components/PriceFilter";
 
 
 const Search = () => {
+  // 这里是输入项
   const search = useSearchContext();
+  // 下面是当前页面的筛选项，所以是在当前页面定义的。
   const [page, setPage] = useState<number>(1);
   const [selectedStars, setSelectedStars] = useState<string[]>([])
   const [selectedHotelTypes, setSelectedHotelTypes] = useState<string[]>([])
@@ -19,9 +21,10 @@ const Search = () => {
   const [selectedPrice, setSelectedPrice] = useState<number | undefined>();
   const [sortOption, setSortOption] = useState<string>("");
   
+  // 上面两部分都转换成string类型的数据，就变成了接口要的数据
   const searchParams = {
     destination: search.destination,
-    checkIn: search.checkIn.toISOString(),
+    checkIn: search.checkIn.toISOString(), // '2024-05-05T13:08:55.659Z'
     checkOut: search.checkOut.toISOString(),
     adultCount: search.adultCount.toString(),
     childCount: search.childCount.toString(),
@@ -33,6 +36,7 @@ const Search = () => {
     sortOption,
   };
 
+  // ["searchHotels", searchParams], 传参
   const { data: hotelData } = useQuery(["searchHotels", searchParams], () =>
     // return this
     apiClient.searchHotels(searchParams)
@@ -66,8 +70,10 @@ const Search = () => {
   }
 
   return (
+    // 小屏幕grid-cols-1, 大屏幕2栏，左栏250px, 又栏剩余的空间，
     <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
-      <div className="rounded-lg border border-slate-300 p-5 h-fit sticky top-10">
+      {/* h-fit: fit the height of the container, sticky滚动粘顶. 小屏幕sticky的话字都重叠在一起了。*/}
+      <div className="rounded-lg border border-slate-300 p-5 h-fit top-10 lg:sticky">
         <div className="space-y-5">
           <h3 className="text-lg font-semibold border-b border-slate-300 pb-5">Filter by:</h3>
         </div>
@@ -102,7 +108,7 @@ const Search = () => {
             pages={hotelData?.pagination.pages || 1}
             onPageChange={(page)=> setPage(page)}
           />
-          </div>
+        </div>
       </div>
     </div>
   );

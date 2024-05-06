@@ -3,7 +3,6 @@ import { HotelType } from "../../../backend/src/shared/types";
 
 type Props = {
   hotel: HotelType,
-  key: string,
 }
 
 const LatestDestinationCard = ({ hotel } : Props) => {

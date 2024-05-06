@@ -20,6 +20,7 @@ type AppContext = {
 
 const AppContext = React.createContext<AppContext | undefined>(undefined);
 
+// 前端获取stripePromise，连接stripe，在别的页面会用到。
 const stripePromise = loadStripe(STRIPE_PUB_KEY);
 
 export const AppContextProvider = ({

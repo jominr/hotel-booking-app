@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { BookingType, HotelType } from "../shared/types";
 
 const bookingSchema = new mongoose.Schema<BookingType>({
+  // booking的信息会挂在酒店上，所以主要是用户下订单的信息
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   email: { type: String, required: true },
@@ -13,6 +14,7 @@ const bookingSchema = new mongoose.Schema<BookingType>({
   totalCost: { type: Number, required: true },
 })
 
+// we've got a hotel schema defined, we can start saving hotels to our database. 
 const hotelSchema = new mongoose.Schema<HotelType>({
   userId: { type: String, required: true },
   name: { type: String, required: true },

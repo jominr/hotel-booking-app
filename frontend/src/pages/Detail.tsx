@@ -44,6 +44,7 @@ const Detail = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr]">
+        {/* prevents overflow and breaks the text up on any white space */}
         <div className="whitespace-pre-line">{hotel.description}</div>
         <div className="h-fit">
           <GuestInfoForm

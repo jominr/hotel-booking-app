@@ -1,3 +1,4 @@
+// 这些类型都是数据库查询返回结果时前端用得到的类型。
 export type UserType = {
   _id: string;
   email: string;
@@ -21,6 +22,7 @@ export type HotelType = {
   starRating: number;
   imageUrls: string[];
   lastUpdated: Date;
+  // 这家酒店的预定
   bookings: BookingType[];
 }
 

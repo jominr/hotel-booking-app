@@ -60,7 +60,7 @@ router.get("/validate-token", verifyToken, (req: Request, res: Response)=>{
 });
 
 router.post("/logout", (req: Request, res: Response) => {
-  // return an empty token as part of the off token HTTP cookie
+  // return an empty token as part of the auth token HTTP cookie
   res.cookie("auth_token", "", {
     expires: new Date(0),
   });

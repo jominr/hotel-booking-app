@@ -14,6 +14,7 @@ const BookingDetailSummary = (
 
   
   return (
+    // h-fit: it is going to stretch to match the other column.
     <div className="grid gap-4 rounded-lg border border-slate-300 p-5 h-fit">
       <h2 className="text-xl font-bold">Your Booking Details</h2>
       <div className="border-b py-2">
@@ -23,6 +24,7 @@ const BookingDetailSummary = (
       <div className="flex justify-between">
         <div>
           Check-in
+          {/* 'Mon May 06 2024' */}
           <div className="font-bold">{checkIn.toDateString()}</div>
         </div>
         <div>

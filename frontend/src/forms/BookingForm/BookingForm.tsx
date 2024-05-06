@@ -3,7 +3,7 @@ import { PaymentIntentResponse, UserType } from "../../../../backend/src/shared/
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { StripeCardElement } from "@stripe/stripe-js";
 import { useSearchContext } from "../../contexts/SearchContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useMutation } from "react-query";
 import * as apiClient from "../../api-client";
 import { useAppContext } from "../../contexts/AppContext";
@@ -27,17 +27,19 @@ export type BookingFormData = {
 };
 
 const BookingForm = ({currentUser, paymentIntent} : Props) => {
+  // stripe SDK提供的hook
   const stripe = useStripe();
+  // 这是获取页面上的card number enter的元素
   const elements = useElements();
   const search = useSearchContext();
   const { hotelId } = useParams();
   const { showToast } = useAppContext();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const { mutate: bookRoom, isLoading } = useMutation(apiClient.createRoomBooking, {
     onSuccess: ()=> {
       showToast({ message: "Booking Saved!", type: "SUCCESS" });
-      navigate("/my-bookings");
+      // navigate("/my-bookings");
     },
     onError: ()=> {
       showToast({ message: "Error saving booking", type: "ERROR" });
@@ -45,6 +47,7 @@ const BookingForm = ({currentUser, paymentIntent} : Props) => {
   })
 
   const { handleSubmit, register } = useForm<BookingFormData>({
+    // 即使这些值来自于不同的地方，但是我们可以使用form来统一的向后台请求，这是我们使用useForm的原因。
     defaultValues: {
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
@@ -63,13 +66,14 @@ const BookingForm = ({currentUser, paymentIntent} : Props) => {
     if (!stripe || !elements) {
       return;
     }
+    // stripe来自useStripeHook which is provided by the stripe SDK.
     const result = await stripe.confirmCardPayment(paymentIntent.clientSecret, {
       payment_method: {
         card: elements.getElement(CardElement) as StripeCardElement,
       },
     });
     if (result.paymentIntent?.status === "succeeded") {
-      // book the room
+      // book the room, we have the most updated paymentIntent id, 
       bookRoom({...formData, paymentIntentId: result.paymentIntent.id});
     }
   }
@@ -123,6 +127,7 @@ const BookingForm = ({currentUser, paymentIntent} : Props) => {
 
       <div className="space-y-2">
         <h3 className="text-xl font-semibold">Payment Details</h3>
+        {/* card number enter */}
         <CardElement
           id="payment-element"
           className="border rounded-md p-2 text-sm"

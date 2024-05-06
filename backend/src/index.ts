@@ -7,11 +7,13 @@ import authRoutes from './routes/auth';
 // 当我们需要verifyToken时，需要这个包和对应的ts包
 import cookieParser from "cookie-parser";
 import path from "path";
+// 这个SDK中的v2是cloudinary提供的第二个版本。
 import { v2 as cloudinary} from "cloudinary";
 import myHotelRoutes from './routes/my-hotels';
 import hotelRoutes from './routes/hotels';
 import bookingRoutes from './routes/my-booking';
 
+// initialize cloudinary, 连接cloudinary. 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,

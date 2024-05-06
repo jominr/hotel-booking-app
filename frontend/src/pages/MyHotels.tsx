@@ -27,6 +27,7 @@ const MyHotels = () => {
         {hotelData.map((hotel)=>(
           <div key={hotel.name} className="flex flex-col justify-between border border-slate-300 rounded-lg p-8 gap-5">
             <h2 className="text-2xl font-bold">{hotel.name}</h2>
+            {/* whitespace-pre-line: it prevents the text from overflowing ouside of card */}
             <div className="whitespace-pre-line">{hotel.description}</div>
             <div className="grid grid-cols-5 gap-2">
               <div className="border border-slate-300 rounded-sm p-3 flex items-center">

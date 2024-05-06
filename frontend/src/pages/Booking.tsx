@@ -10,11 +10,12 @@ import { useAppContext } from "../contexts/AppContext";
 
 const Booking = () => {
   const { stripePromise } = useAppContext();
+  // 获取到用户查询的信息：时间段，人数
   const search = useSearchContext();
   const { hotelId } = useParams();
   
   const [numberOfNights, setNumberOfNights] = useState<number>(0);
-  
+  // 计算入住的天数
   useEffect(()=> {
     if(search.checkIn && search.checkOut) {
       const nights = 
@@ -25,6 +26,7 @@ const Booking = () => {
     }
   }, [search.checkIn, search.checkOut])
   
+  // 创建paymentIntentData，传参userId, hotelId, numberOfNights
   const { data: paymentIntentData } = useQuery(
     "createPaymentIntent",
     ()=> 
@@ -37,13 +39,17 @@ const Booking = () => {
     }
   );
 
+  // 获取到酒店的信息：酒店地址、价格
   const { data: hotel } = useQuery(
     "fetchHotelById", 
-    () => apiClient.fetchHotelById(hotelId as string), {
+    // 要传参，所以这么写？
+    () => apiClient.fetchHotelById(hotelId as string),
+    {
       enabled: !!hotelId,
     }
   );
   
+  // 获取到用户的信息：用户名，email
   const { data: currentUser } = useQuery(
     "fetchCurrentUser", 
     apiClient.fetchCurrentUser
@@ -64,10 +70,12 @@ const Booking = () => {
         hotel={hotel}
       />
       {currentUser && paymentIntentData && (
+        // 展示tripe要展示的部分，
+        // Element来自stripe frontend SDK, 给我们一些stripe UI elements that give us card details and lets us create a payment from the UI
         <Elements
           stripe={stripePromise}
           options={{
-            locale: "en",
+            locale: "en", // 语言环境
             clientSecret: paymentIntentData.clientSecret,
           }}
         >

@@ -13,6 +13,7 @@ const SearchResultCard = ({hotel}: Props) => {
       <div className="w-full h-[300px] ">
         <img
           src={hotel.imageUrls[0]}
+          // crop the image and to focus on the center. 照片还是会裁剪的，并且覆盖整个区域
           className="w-full h-full object-cover object-center"
         />
       </div>
@@ -33,9 +34,11 @@ const SearchResultCard = ({hotel}: Props) => {
         </div>
         
         <div>
+          {/* 最多4行，超过4行会... */}
           <div className="line-clamp-4">{hotel.description}</div>
         </div>
 
+        {/* 分成两栏，底部对齐，whitespace-nowrap: this prevents the text from dropping onto a new line since we do what that in this instance.    */}
         <div className="grid grid-cols-2 items-end whitespace-nowrap">
           <div className="flex gap-1 items-center">
             {hotel.facilities.slice(0, 3).map((facility)=>(

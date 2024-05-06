@@ -50,6 +50,7 @@ const GuestInfoForm = ({hotelId, pricePerNight}: Props) => {
       data.adultCount, 
       data.childCount
     );
+    // sign-in页面需要增加一些逻辑识别state
     navigate("/sign-in", {state: { from: location }})
   }
 

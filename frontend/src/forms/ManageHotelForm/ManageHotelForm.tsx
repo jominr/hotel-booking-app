@@ -18,8 +18,8 @@ export type HotelFromData = {
   facilities: string[];
   pricePerNight: number;
   starRating: number;
-  imageFiles: FileList;
-  imageUrls: string[];
+  imageFiles: FileList; // 这里和后台定义的type略有不同，因此我们不能reuse后台的定义。
+  imageUrls: string[]; // 这个是因为获取hotel数据时有imageUrls要展示，所以后期加上的。
 }
 
 type Props = {
@@ -29,15 +29,23 @@ type Props = {
 }
 
 const ManageHotelForm = ({ onSave, hotel, isLoading }: Props) => {
+  // 下面这行是注册表单用react-hook-form，做下对比。
+  // const { register, watch, handleSubmit, formState: {errors} } = useForm<RegisterFormData>();
+  
+  // 我们只是assigning everything to a variable, 因为我们把form分成了不同的组件，
+  // we need to use 'form provider', so our child components can get access to all the react-hook-form methods. 
+  // 因此我们在<form>外层包裹了<FormProvider {...formMethods}>
   const formMethods = useForm<HotelFromData>();
   const { handleSubmit, reset } = formMethods;
   
+  // 把获取到的hotel值reset form. 
   useEffect(()=> {
     reset(hotel);
   }, [hotel, reset]);
 
   const onSubmit = handleSubmit((formDataJson: HotelFromData) => {
     // create new FormData object & call our API
+    // 我们要构造一个multipart form.
     const formData = new FormData();
     if(hotel) {
       formData.append("hotelId", hotel._id);
@@ -57,14 +65,17 @@ const ManageHotelForm = ({ onSave, hotel, isLoading }: Props) => {
     });
 
     // [image1.jpg, image2.jpg, image3.jpg]
-    // imageUrls = [image1.jpg]
+    // imageUrls = [image1.jpg, image2.jpg, image3.jpg]
     if (formDataJson.imageUrls) {
       formDataJson.imageUrls.forEach((url, index)=> {
         formData.append(`imageUrls[${index}]`, url);
       })
     }
 
+    // formDataJson.imageFiles的类型是file list类型，转成array类型。
     Array.from(formDataJson.imageFiles).forEach((imageFile) => {
+      // because we are working with image files and binary data, 
+      // we don't have to specify an array like facilities[], 
       formData.append(`imageFiles`, imageFile);
     })
 
@@ -72,6 +83,7 @@ const ManageHotelForm = ({ onSave, hotel, isLoading }: Props) => {
   });
 
   return (
+    // 这就是一种react context API, 就像我们定义的appContext. 
     <FormProvider {...formMethods}>
       <form className="flex flex-col gap-10" onSubmit={onSubmit}>
         <DetailSection />

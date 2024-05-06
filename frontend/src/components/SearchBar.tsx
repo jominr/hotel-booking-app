@@ -2,12 +2,15 @@ import { FormEvent, useState } from "react";
 import { useSearchContext } from "../contexts/SearchContext";
 import { MdTravelExplore } from "react-icons/md";
 import DatePicker from "react-datepicker";
+// react-datepicker的样式要引进来
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
   const navigate = useNavigate();
+
   const search = useSearchContext();
+
   const [destination, setDestination] = useState<string>(search.destination);
   const [checkIn, setCheckIn] = useState<Date>(search.checkIn);
   const [checkOut, setCheckOut] = useState<Date>(search.checkOut);
@@ -15,6 +18,7 @@ const SearchBar = () => {
   const [childCount, setChildCount] = useState<number>(search.childCount);
 
   const handleSubmit = (event: FormEvent) => {
+    // this stops the form from trying to do a post request. 
     event.preventDefault();
     search.saveSearchValues(
       destination, 
@@ -74,7 +78,7 @@ const SearchBar = () => {
       <div >
         <DatePicker
           selected={checkIn}
-          onChange={(date: Date)=> setCheckIn(date as Date)}
+          onChange={(date)=> setCheckIn(date as Date)}
           selectsStart
           startDate={checkIn}
           endDate={checkOut}
@@ -82,6 +86,7 @@ const SearchBar = () => {
           maxDate={maxDate}
           placeholderText="Check-in Date"
           className="min-w-full bg-white p-2 focus:outline-none"
+          // 看起来像是上面的min-w-full没生效，又增加了下面的class
           wrapperClassName="min-w-full"
         />
       </div>
